@@ -1,20 +1,23 @@
 #!/usr/bin/env bash
-set -e
+set -euo pipefail
 
-PREFIX="$PWD/out"
-SRC="$PWD/src"
+ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+SRC="$ROOT/src/FFmpeg-AVSPlus"
+OUT="$ROOT/out/ffmpeg"
 
-mkdir -p "$SRC" "$PREFIX"
+mkdir -p "$OUT"
 
-cd "$SRC/FFmpeg-AVSPlus"
+cd "$SRC"
 
 ./configure \
-  --prefix="$PREFIX" \
+  --prefix="$OUT" \
   --enable-gpl \
   --enable-shared \
   --disable-static \
-  --disable-programs \
-  --disable-doc
+  --disable-doc \
+  --disable-debug
 
-make -j$(nproc)
+make -j"$(nproc)"
 make install
+
+"$OUT/bin/ffmpeg" -decoders | grep -i cavs
