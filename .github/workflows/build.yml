@@ -22,35 +22,25 @@ jobs:
             mingw-w64-x86_64-pkg-config
             mingw-w64-x86_64-yasm
             mingw-w64-x86_64-nasm
+            mingw-w64-x86_64-meson
+            mingw-w64-x86_64-python
 
-      - name: Fetch AVSPlus FFmpeg
+      - name: Fetch FFmpeg-AVSPlus
         shell: msys2 {0}
         run: |
           bash build/fetch_ffmpeg_avsplus.sh
 
-      - name: Import AVS+ patch
-        shell: msys2 {0}
-        env:
-          CAVS_DRA_PATCH_URL: ${{ secrets.CAVS_DRA_PATCH_URL }}
-        run: |
-          bash build/import_cavs_dra_patch.sh
-
-      - name: Apply AVS+ patch
-        shell: msys2 {0}
-        run: |
-          bash build/apply_patches.sh
-
-      - name: Build FFmpeg
+      - name: Build FFmpeg-AVSPlus
         shell: msys2 {0}
         run: |
           bash build/build_ffmpeg_avsplus.sh
 
-      - name: Verify decoder
+      - name: Build mpv
         shell: msys2 {0}
         run: |
-          bash build/verify_decoder.sh
+          bash build/build_mpv_avsplus.sh
 
-      - name: Build package
+      - name: Build portable package
         shell: pwsh
         run: |
           ./build/build_release.ps1
