@@ -35,10 +35,20 @@ jobs:
         run: |
           bash build/build_ffmpeg_avsplus.sh
 
+      - name: Verify FFmpeg decoder
+        shell: msys2 {0}
+        run: |
+          bash build/verify_decoder.sh
+
       - name: Build mpv
         shell: msys2 {0}
         run: |
           bash build/build_mpv_avsplus.sh
+
+      - name: Verify mpv binary
+        shell: msys2 {0}
+        run: |
+          bash build/verify_mpv.sh
 
       - name: Build portable package
         shell: pwsh
