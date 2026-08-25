@@ -10,13 +10,14 @@ if [ ! -d "$FFMPEG_SRC" ]; then
   exit 1
 fi
 
-if [ ! -f "$PATCH" ]; then
+if [ ! -s "$PATCH" ]; then
   echo "Missing AVS+ patch: $PATCH"
   echo "Import the verified FFmpeg 7.1.2 cavs_dra patch first."
   exit 2
 fi
 
 cd "$FFMPEG_SRC"
+patch --dry-run -p1 < "$PATCH"
 patch -p1 < "$PATCH"
 
 echo "FFmpeg 7.1.2 AVS+ patch applied successfully"
