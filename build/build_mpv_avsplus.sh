@@ -1,12 +1,20 @@
 #!/usr/bin/env bash
 set -e
 
-# Build mpv against the AVS+ enabled FFmpeg from build_ffmpeg_avsplus.sh.
+ROOT="$PWD"
+PREFIX="$ROOT/out/mpv"
+SRC="$ROOT/src/mpv"
 
-mkdir -p out/mpv
+mkdir -p "$PREFIX"
 
-echo "TODO: clone mpv"
-echo "TODO: configure against patched FFmpeg"
-echo "TODO: install portable runtime"
+if [ ! -d "$SRC" ]; then
+  git clone https://github.com/mpv-player/mpv.git "$SRC"
+fi
 
-echo "mpv AVS+ build stage placeholder"
+cd "$SRC"
+
+meson setup build --prefix="$PREFIX" --buildtype=release || \
+  meson setup --reconfigure build --prefix="$PREFIX" --buildtype=release
+
+meson compile -C build
+meson install -C build
