@@ -28,6 +28,18 @@ jobs:
         run: |
           bash build/fetch_ffmpeg_avsplus.sh
 
+      - name: Import AVS+ patch
+        shell: msys2 {0}
+        env:
+          CAVS_DRA_PATCH_URL: ${{ secrets.CAVS_DRA_PATCH_URL }}
+        run: |
+          bash build/import_cavs_dra_patch.sh
+
+      - name: Apply AVS+ patch
+        shell: msys2 {0}
+        run: |
+          bash build/apply_patches.sh
+
       - name: Build FFmpeg
         shell: msys2 {0}
         run: |
