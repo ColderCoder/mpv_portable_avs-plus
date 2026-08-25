@@ -1,24 +1,22 @@
 #!/usr/bin/env bash
-set -e
+set -euo pipefail
 
-ROOT="$PWD"
+ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 FFMPEG_SRC="$ROOT/src/ffmpeg"
-PATCH_DIR="$ROOT/patches"
+PATCH="$ROOT/patches/vendor/ffmpeg-7.1.2_cavs_dra.patch"
 
 if [ ! -d "$FFMPEG_SRC" ]; then
   echo "FFmpeg source missing: $FFMPEG_SRC"
   exit 1
 fi
 
-PATCH="$PATCH_DIR/ffmpeg-cavs-avsplus.patch"
-
 if [ ! -f "$PATCH" ]; then
   echo "Missing AVS+ patch: $PATCH"
-  echo "The build will stop until a verified libcavs patch is imported."
+  echo "Import the verified FFmpeg 7.1.2 cavs_dra patch first."
   exit 2
 fi
 
 cd "$FFMPEG_SRC"
 patch -p1 < "$PATCH"
 
-echo "FFmpeg AVS+ patch applied successfully"
+echo "FFmpeg 7.1.2 AVS+ patch applied successfully"
