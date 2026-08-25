@@ -20,9 +20,25 @@ jobs:
             make
             mingw-w64-x86_64-toolchain
             mingw-w64-x86_64-pkg-config
+            mingw-w64-x86_64-yasm
 
-      - name: Build placeholder
+      - name: Fetch AVSPlus FFmpeg
         shell: msys2 {0}
         run: |
-          echo AVS+ build pipeline placeholder
-          echo Next stage: patched FFmpeg + libcavs + mpv
+          bash build/fetch_ffmpeg_avsplus.sh
+
+      - name: Build FFmpeg
+        shell: msys2 {0}
+        run: |
+          bash build/build_ffmpeg_avsplus.sh
+
+      - name: Build package
+        shell: pwsh
+        run: |
+          ./build/build_release.ps1
+
+      - name: Upload portable package
+        uses: actions/upload-artifact@v4
+        with:
+          name: mpv-portable-avsplus
+          path: release/
