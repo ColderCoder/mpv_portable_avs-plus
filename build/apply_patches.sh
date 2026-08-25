@@ -10,10 +10,15 @@ if [ ! -d "$FFMPEG_SRC" ]; then
   exit 1
 fi
 
-if [ -f "$PATCH_DIR/ffmpeg-cavs-avsplus.patch" ]; then
-  cd "$FFMPEG_SRC"
-  patch -p1 < "$PATCH_DIR/ffmpeg-cavs-avsplus.patch"
-else
-  echo "No AVS+ patch file present yet."
-  echo "Waiting for verified ffmpeg_cavs_dra patch import."
+PATCH="$PATCH_DIR/ffmpeg-cavs-avsplus.patch"
+
+if [ ! -f "$PATCH" ]; then
+  echo "Missing AVS+ patch: $PATCH"
+  echo "The build will stop until a verified libcavs patch is imported."
+  exit 2
 fi
+
+cd "$FFMPEG_SRC"
+patch -p1 < "$PATCH"
+
+echo "FFmpeg AVS+ patch applied successfully"
