@@ -1,0 +1,5 @@
+# Placeholder for validated AVS+ / libcavs FFmpeg patch.
+#
+# This file intentionally contains no fake changes.
+# The build pipeline will apply a real patch once imported and verified
+# against the selected FFmpeg baseline.
