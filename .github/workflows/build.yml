@@ -1,0 +1,28 @@
+name: build-mpv-avsplus
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup MSYS2
+        uses: msys2/setup-msys2@v2
+        with:
+          update: true
+          install: >-
+            git
+            make
+            mingw-w64-x86_64-toolchain
+            mingw-w64-x86_64-pkg-config
+
+      - name: Build placeholder
+        shell: msys2 {0}
+        run: |
+          echo AVS+ build pipeline placeholder
+          echo Next stage: patched FFmpeg + libcavs + mpv
