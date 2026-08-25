@@ -45,6 +45,11 @@ jobs:
         run: |
           bash build/build_ffmpeg_avsplus.sh
 
+      - name: Verify decoder
+        shell: msys2 {0}
+        run: |
+          bash build/verify_decoder.sh
+
       - name: Build package
         shell: pwsh
         run: |
